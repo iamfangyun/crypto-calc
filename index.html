@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoCalc - Free Cryptocurrency Calculators for Traders & Investors</title>
+    <meta name="description" content="Free crypto profit calculators, tax estimators, and mining ROI tools. Calculate Bitcoin, Ethereum, and altcoin profits, capital gains tax, and more.">
+    <link rel="canonical" href="https://cryptocalc.bmaster.cn/">
+    <meta property="og:title" content="CryptoCalc - Free Cryptocurrency Calculators">
+    <meta property="og:description" content="Calculate your crypto trading profits, tax, mining ROI, and more. Free online tools for Bitcoin, Ethereum, and 100+ altcoins.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cryptocalc.bmaster.cn/">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "CryptoCalc",
+        "url": "https://cryptocalc.bmaster.cn/",
+        "description": "Free cryptocurrency calculators for traders and investors.",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://cryptocalc.bmaster.cn/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --surface2: #1a1a1a;
+            --border: #2a2a2a;
+            --text: #e8e8e8;
+            --text2: #999;
+            --accent: #f7931a;
+            --accent2: #ff9500;
+            --radius: 12px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+        }
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+        .logo-icon {
+            width: 36px; height: 36px; background: var(--accent); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 18px; color: #000;
+        }
+        .logo-text { font-weight: 700; font-size: 18px; }
+        .logo-text span { color: var(--accent); }
+        .header-nav { display: flex; gap: 24px; }
+        .header-nav a { color: var(--text2); text-decoration: none; font-size: 14px; }
+        .header-nav a:hover { color: var(--accent); }
+
+        .hero {
+            text-align: center;
+            padding: 80px 24px 60px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
+        .hero h1 .hl { color: var(--accent); }
+        .hero p { font-size: 18px; color: var(--text2); margin-bottom: 32px; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
+
+        .section-title {
+            font-size: 28px; font-weight: 700; margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+        .calc-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .calc-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .calc-card .icon { font-size: 32px; margin-bottom: 12px; }
+        .calc-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+        .calc-card p { font-size: 14px; color: var(--text2); flex: 1; }
+        .calc-card .tag {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 10px;
+            background: rgba(247,147,26,0.1);
+            color: var(--accent);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 60px;
+        }
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+        .feature .icon { font-size: 36px; margin-bottom: 12px; }
+        .feature h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+        .feature p { font-size: 13px; color: var(--text2); }
+
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 32px 0;
+            text-align: center;
+            color: var(--text2);
+            font-size: 13px;
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+
+        .ad-slot {
+            background: var(--surface2);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text2);
+            font-size: 12px;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 28px; }
+            .calc-grid { grid-template-columns: 1fr; }
+            .features { grid-template-columns: 1fr 1fr; }
+            .header-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <a href="/" class="logo">
+            <div class="logo-icon">&#8383;</div>
+            <div class="logo-text">Crypto<span>Calc</span></div>
+        </a>
+        <nav class="header-nav">
+            <a href="/">Home</a>
+            <a href="/bitcoin-profit-calculator.html">Bitcoin Profit</a>
+            <a href="/ethereum-profit-calculator.html">Ethereum Profit</a>
+            <a href="/crypto-tax-calculator.html">Crypto Tax</a>
+        </nav>
+    </div>
+</header>
+
+<div class="hero">
+    <h1>Free <span class="hl">Crypto</span> Calculators<br>You Can Trust</h1>
+    <p>Calculate profits, taxes, mining returns, and more for Bitcoin, Ethereum, and 100+ cryptocurrencies. No sign-up required.</p>
+</div>
+
+<div class="container">
+
+    <div class="ad-slot">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2831974253933443" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+
+    <h2 class="section-title">Profit Calculators</h2>
+    <div class="calc-grid">
+        <a href="/bitcoin-profit-calculator.html" class="calc-card">
+            <div class="icon">&#8383;</div>
+            <h3>Bitcoin Profit Calculator</h3>
+            <p>Calculate your BTC trading profits after fees and taxes. See exact ROI and break-even price.</p>
+            <span class="tag">Most Popular</span>
+        </a>
+        <a href="/ethereum-profit-calculator.html" class="calc-card">
+            <div class="icon">&#988;</div>
+            <h3>Ethereum Profit Calculator</h3>
+            <p>Calculate ETH trading profits with fee and tax deductions. Supports staking rewards.</p>
+            <span class="tag">Popular</span>
+        </a>
+        <a href="/solana-profit-calculator.html" class="calc-card">
+            <div class="icon">&#9670;</div>
+            <h3>Solana Profit Calculator</h3>
+            <p>Figure out your SOL investment returns. Factor in trading fees and capital gains.</p>
+            <span class="tag">New</span>
+        </a>
+    </div>
+
+    <h2 class="section-title">Tax Calculators</h2>
+    <div class="calc-grid">
+        <a href="/crypto-tax-calculator.html" class="calc-card">
+            <div class="icon">&#128176;</div>
+            <h3>Crypto Tax Calculator</h3>
+            <p>Estimate your cryptocurrency capital gains tax for the US, UK, Canada, and Australia.</p>
+            <span class="tag">Essential</span>
+        </a>
+        <a href="/crypto-capital-gains-calculator.html" class="calc-card">
+            <div class="icon">&#128200;</div>
+            <h3>Capital Gains Calculator</h3>
+            <p>Short-term vs long-term capital gains breakdown. Know your tax bracket impact.</p>
+            <span class="tag">Tax Season</span>
+        </a>
+        <a href="/crypto-profit-loss-calculator.html" class="calc-card">
+            <div class="icon">&#9878;</div>
+            <h3>Profit/Loss Calculator</h3>
+            <p>Track gains and losses across multiple trades. Supports FIFO and LIFO methods.</p>
+            <span class="tag">Multi-Trade</span>
+        </a>
+    </div>
+
+    <h2 class="section-title">Investment Calculators</h2>
+    <div class="calc-grid">
+        <a href="/bitcoin-dca-calculator.html" class="calc-card">
+            <div class="icon">&#128197;</div>
+            <h3>Bitcoin DCA Calculator</h3>
+            <p>See your returns from dollar-cost averaging into Bitcoin over time.</p>
+            <span class="tag">Strategy</span>
+        </a>
+        <a href="/if-i-invested-in-bitcoin-calculator.html" class="calc-card">
+            <div class="icon">&#128184;</div>
+            <h3>"If I Invested" Calculator</h3>
+            <p>What if you bought Bitcoin in 2015? See hypothetical returns for any date.</p>
+            <span class="tag">Fun & Insightful</span>
+        </a>
+        <a href="/crypto-mining-calculator.html" class="calc-card">
+            <div class="icon">&#9874;</div>
+            <h3>Crypto Mining Calculator</h3>
+            <p>Calculate mining profitability for BTC, ETH, and more. Factor in electricity and hardware.</p>
+            <span class="tag">Miners</span>
+        </a>
+    </div>
+
+    <div class="ad-slot">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2831974253933443" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+
+    <div class="features">
+        <div class="feature">
+            <div class="icon">&#128274;</div>
+            <h3>100% Private</h3>
+            <p>All calculations run locally in your browser. No data sent to any server.</p>
+        </div>
+        <div class="feature">
+            <div class="icon">&#127381;</div>
+            <h3>No Sign-Up</h3>
+            <p>Use instantly. No account, no email, no tracking. Just calculate.</p>
+        </div>
+        <div class="feature">
+            <div class="icon">&#128241;</div>
+            <h3>Mobile Friendly</h3>
+            <p>Works perfectly on phones, tablets, and desktop. Calculate on the go.</p>
+        </div>
+        <div class="feature">
+            <div class="icon">&#127760;</div>
+            <h3>Always Free</h3>
+            <p>No premium tier, no paywall. Every calculator is free forever.</p>
+        </div>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <p>&copy; 2025 CryptoCalc. All rights reserved. | <a href="/privacy.html">Privacy Policy</a></p>
+    <p style="margin-top:8px;font-size:12px;">Calculators are for informational purposes only. Not financial advice.</p>
+</footer>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2831974253933443" crossorigin="anonymous"></script>
+
+</body>
+</html>
