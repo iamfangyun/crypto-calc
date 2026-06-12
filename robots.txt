@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cryptocalc.bmaster.cn/sitemap.xml
