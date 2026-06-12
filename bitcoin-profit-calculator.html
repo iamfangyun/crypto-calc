@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Profit Calculator - Calculate Your BTC Trading Profits & ROI</title>
+    <meta name="description" content="Free Bitcoin profit calculator. Calculate your BTC trading profits, ROI, and capital gains tax. See exactly how much you make after fees and taxes.">
+    <meta name="keywords" content="bitcoin profit calculator, btc profit calculator, bitcoin roi calculator, bitcoin return calculator, crypto profit calculator">
+    <link rel="canonical" href="https://cryptocalc.bmaster.cn/bitcoin-profit-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Bitcoin Profit Calculator - Calculate Your BTC Trading Profits & ROI">
+    <meta property="og:description" content="Free Bitcoin profit calculator. Calculate your BTC trading profits, ROI, and capital gains tax instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cryptocalc.bmaster.cn/bitcoin-profit-calculator.html">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Bitcoin Profit Calculator",
+        "description": "Calculate your Bitcoin trading profits, ROI, and capital gains tax after fees.",
+        "url": "https://cryptocalc.bmaster.cn/bitcoin-profit-calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How do I calculate my Bitcoin profit?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Subtract your total purchase cost (buy price × quantity + fees) from your total sale value (sell price × quantity - fees). The result is your gross profit. For net profit, subtract any applicable capital gains tax."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the capital gains tax rate for Bitcoin?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In the US, short-term capital gains (held less than 1 year) are taxed as ordinary income (10-37%). Long-term capital gains (held over 1 year) are taxed at 0%, 15%, or 20% depending on your taxable income. Additional 3.8% Net Investment Income Tax may apply for high earners."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is Bitcoin ROI calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ROI = ((Current Value - Investment Cost) / Investment Cost) × 100%. For example, if you invested $1,000 in Bitcoin and it's now worth $2,500, your ROI is ((2500-1000)/1000) × 100% = 150%."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --surface2: #1a1a1a;
+            --border: #2a2a2a;
+            --text: #e8e8e8;
+            --text2: #999;
+            --accent: #f7931a;
+            --accent2: #ff9500;
+            --green: #00d4aa;
+            --green-bg: rgba(0,212,170,0.1);
+            --red: #ff4757;
+            --red-bg: rgba(255,71,87,0.1);
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+            color: #000;
+        }
+        .logo-text { font-weight: 700; font-size: 18px; }
+        .logo-text span { color: var(--accent); }
+        .header-nav { display: flex; gap: 24px; }
+        .header-nav a {
+            color: var(--text2);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .header-nav a:hover { color: var(--accent); }
+
+        /* Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            font-size: 13px;
+            color: var(--text2);
+            margin-bottom: 24px;
+        }
+        .breadcrumb a { color: var(--text2); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--accent); }
+
+        /* H1 */
+        .page-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+        .page-title .btc-icon { color: var(--accent); }
+        .page-subtitle {
+            color: var(--text2);
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        /* Calculator Card */
+        .calc-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+        }
+        .calc-card h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .calc-card h2 .icon { color: var(--accent); }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text2);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper .prefix {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text2);
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .input-wrapper .suffix {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text2);
+            font-size: 12px;
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input[type="number"]:focus, select:focus {
+            border-color: var(--accent);
+        }
+        input.has-prefix { padding-left: 32px; }
+        input.has-suffix { padding-right: 50px; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .calc-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        .calc-btn:hover { background: var(--accent2); transform: translateY(-1px); }
+
+        /* Results */
+        .results-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+        }
+        .results-card h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .result-placeholder {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text2);
+            font-size: 15px;
+            padding: 40px 0;
+        }
+
+        .result-main {
+            display: none;
+        }
+        .result-main.visible { display: block; }
+
+        .profit-big {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--radius);
+        }
+        .profit-big.positive { background: var(--green-bg); }
+        .profit-big.negative { background: var(--red-bg); }
+        .profit-big .label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text2);
+            margin-bottom: 4px;
+        }
+        .profit-big .amount {
+            font-size: 36px;
+            font-weight: 800;
+        }
+        .profit-big.positive .amount { color: var(--green); }
+        .profit-big.negative .amount { color: var(--red); }
+        .profit-big .pct {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .profit-big.positive .pct { color: var(--green); }
+        .profit-big.negative .pct { color: var(--red); }
+
+        .result-details {
+            display: grid;
+            gap: 12px;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        .result-row:last-child { border-bottom: none; }
+        .result-row .label { color: var(--text2); }
+        .result-row .value { font-weight: 600; }
+        .result-row .value.green { color: var(--green); }
+        .result-row .value.red { color: var(--red); }
+
+        /* Content Section */
+        .content-section {
+            margin-top: 48px;
+        }
+        .content-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+        .content-section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 28px 0 12px;
+            color: var(--accent);
+        }
+        .content-section p {
+            color: var(--text2);
+            margin-bottom: 14px;
+            font-size: 15px;
+        }
+        .content-section ul {
+            color: var(--text2);
+            margin: 0 0 16px 20px;
+            font-size: 15px;
+        }
+        .content-section li { margin-bottom: 6px; }
+
+        .formula-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--accent);
+        }
+
+        /* FAQ */
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+        }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-q {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-q::after { content: '+'; font-size: 20px; color: var(--accent); transition: transform 0.2s; }
+        .faq-item.open .faq-q::after { transform: rotate(45deg); }
+        .faq-a {
+            color: var(--text2);
+            font-size: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .faq-item.open .faq-a { max-height: 500px; }
+
+        /* Related Calculators */
+        .related {
+            margin-top: 48px;
+        }
+        .related h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .related-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.2s;
+        }
+        .related-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .related-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+        .related-card p { font-size: 13px; color: var(--text2); }
+
+        /* Footer */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 32px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: var(--text2);
+            font-size: 13px;
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+
+        /* Ad placeholder */
+        .ad-slot {
+            background: var(--surface2);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text2);
+            font-size: 12px;
+            margin: 24px 0;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .page-title { font-size: 24px; }
+            .related-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .header-nav { display: none; }
+            .profit-big .amount { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon">&#8383;</div>
+                <div class="logo-text">Crypto<span>Calc</span></div>
+            </a>
+            <nav class="header-nav">
+                <a href="/">Home</a>
+                <a href="/bitcoin-profit-calculator.html">Bitcoin Profit</a>
+                <a href="/ethereum-profit-calculator.html">Ethereum Profit</a>
+                <a href="/crypto-tax-calculator.html">Crypto Tax</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="/">Home</a> &rsaquo; <a href="/calculators/">Calculators</a> &rsaquo; Bitcoin Profit Calculator
+        </div>
+
+        <!-- Ad Slot Top -->
+        <div class="ad-slot">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-2831974253933443"
+                 data-ad-slot="auto"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
+        <!-- Title -->
+        <h1 class="page-title"><span class="btc-icon">&#8383;</span> Bitcoin Profit Calculator</h1>
+        <p class="page-subtitle">Calculate your Bitcoin trading profit, ROI, and capital gains tax in seconds.</p>
+
+        <!-- Calculator Grid -->
+        <div class="main-grid">
+            <!-- Input -->
+            <div class="calc-card">
+                <h2><span class="icon">&#9881;</span> Enter Your Trade Details</h2>
+
+                <div class="form-group">
+                    <label>Investment Amount</label>
+                    <div class="input-wrapper">
+                        <span class="prefix">$</span>
+                        <input type="number" id="investment" class="has-prefix" placeholder="1000" value="1000" min="0" step="any">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Buy Price per BTC</label>
+                    <div class="input-wrapper">
+                        <span class="prefix">$</span>
+                        <input type="number" id="buyPrice" class="has-prefix" placeholder="30000" value="30000" min="0" step="any">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Sell Price per BTC</label>
+                    <div class="input-wrapper">
+                        <span class="prefix">$</span>
+                        <input type="number" id="sellPrice" class="has-prefix" placeholder="65000" value="65000" min="0" step="any">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Trading Fee</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="fee" class="has-suffix" placeholder="0.1" value="0.1" min="0" max="100" step="0.01">
+                            <span class="suffix">% per trade</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Tax Rate</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="taxRate" class="has-suffix" placeholder="15" value="15" min="0" max="100" step="0.1">
+                            <span class="suffix">% cap gains</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Holding Period</label>
+                    <select id="holdPeriod">
+                        <option value="short">Short-term (&lt; 1 year)</option>
+                        <option value="long" selected>Long-term (&gt; 1 year)</option>
+                    </select>
+                </div>
+
+                <button class="calc-btn" onclick="calculate()">Calculate Profit</button>
+            </div>
+
+            <!-- Results -->
+            <div class="results-card">
+                <h2>&#128200; Your Results</h2>
+                <div class="result-placeholder" id="placeholder">
+                    Enter your trade details and click<br>"Calculate Profit" to see results
+                </div>
+                <div class="result-main" id="results">
+                    <div class="profit-big positive" id="profitBox">
+                        <div class="label">Net Profit (After Tax)</div>
+                        <div class="amount" id="netProfit">+$0.00</div>
+                        <div class="pct" id="roiPct">+0% ROI</div>
+                    </div>
+                    <div class="result-details">
+                        <div class="result-row">
+                            <span class="label">BTC Quantity</span>
+                            <span class="value" id="btcQty">0</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="label">Total Investment</span>
+                            <span class="value" id="totalInvest">-$0</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="label">Sell Value</span>
+                            <span class="value" id="sellValue">$0</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="label">Gross Profit</span>
+                            <span class="value" id="grossProfit">+$0</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="label">Trading Fees</span>
+                            <span class="value red" id="totalFees">-$0</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="label">Capital Gains Tax</span>
+                            <span class="value red" id="taxAmount">-$0</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="label">Break-Even Price</span>
+                            <span class="value" id="breakEven">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Slot Middle -->
+        <div class="ad-slot">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-2831974253933443"
+                 data-ad-slot="auto"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
+        <!-- SEO Content -->
+        <div class="content-section">
+            <h2>How to Calculate Bitcoin Profit</h2>
+
+            <p>Trading Bitcoin can be highly profitable, but understanding your true returns requires accounting for more than just the price difference. Our Bitcoin profit calculator factors in trading fees, capital gains tax, and your holding period to show you exactly how much money you keep.</p>
+
+            <h3>The Bitcoin Profit Formula</h3>
+            <div class="formula-box">
+                Net Profit = (Sell Price &times; BTC Quantity &minus; Buy Price &times; BTC Quantity) &minus; Trading Fees &minus; Capital Gains Tax
+            </div>
+            <p>Let's break down each component:</p>
+            <ul>
+                <li><strong>Gross Profit</strong> = (Sell Price - Buy Price) &times; Number of BTC</li>
+                <li><strong>Trading Fees</strong> = Buy Fee + Sell Fee (typically 0.05%-0.5% per trade on exchanges like Coinbase, Binance, or Kraken)</li>
+                <li><strong>Capital Gains Tax</strong> = Gross Profit &times; Tax Rate (varies by holding period and country)</li>
+            </ul>
+
+            <h3>Bitcoin Capital Gains Tax Explained</h3>
+            <p>In the United States, the IRS treats Bitcoin and other cryptocurrencies as property, meaning you owe capital gains tax on profits:</p>
+            <ul>
+                <li><strong>Short-term</strong> (held less than 1 year): Taxed as ordinary income at 10%-37% depending on your tax bracket</li>
+                <li><strong>Long-term</strong> (held more than 1 year): Taxed at 0%, 15%, or 20% depending on your taxable income</li>
+                <li><strong>Additional tax</strong>: High earners may owe an extra 3.8% Net Investment Income Tax (NIIT)</li>
+            </ul>
+            <p>For accurate tax planning, we recommend consulting a crypto tax professional or using a dedicated <a href="/crypto-tax-calculator.html" style="color:var(--accent)">crypto tax calculator</a>.</p>
+
+            <h3>Example: Bitcoin Profit Calculation</h3>
+            <p>Let's say you invested $5,000 in Bitcoin at $30,000 per BTC and sold at $65,000:</p>
+            <ul>
+                <li>BTC purchased: $5,000 &divide; $30,000 = 0.1667 BTC</li>
+                <li>Sale value: 0.1667 &times; $65,000 = $10,833</li>
+                <li>Gross profit: $10,833 - $5,000 = $5,833</li>
+                <li>Trading fees (0.1% each side): ~$16</li>
+                <li>Long-term capital gains tax (15%): ~$872</li>
+                <li><strong>Net profit: ~$4,945 (98.9% ROI)</strong></li>
+            </ul>
+
+            <h3>Tips for Maximizing Your Bitcoin Profits</h3>
+            <ul>
+                <li><strong>Hold for over 1 year</strong> to qualify for lower long-term capital gains tax rates (0-20% vs 10-37%)</li>
+                <li><strong>Use limit orders</strong> to reduce trading fees on exchanges</li>
+                <li><strong>Track your cost basis</strong> carefully — FIFO, LIFO, or specific identification methods can significantly impact your tax bill</li>
+                <li><strong>Consider tax-loss harvesting</strong> by selling underperforming crypto to offset gains</li>
+                <li><strong>Use dollar-cost averaging (DCA)</strong> to reduce the impact of volatility on your average buy price</li>
+            </ul>
+
+            <!-- FAQ -->
+            <h2 style="margin-top: 40px;">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How do I calculate my Bitcoin profit?</div>
+                <div class="faq-a">Subtract your total purchase cost (buy price &times; quantity + fees) from your total sale value (sell price &times; quantity - fees). The result is your gross profit. For net profit, subtract any applicable capital gains tax based on your holding period and income bracket.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What is the capital gains tax rate for Bitcoin?</div>
+                <div class="faq-a">In the US, short-term capital gains (held less than 1 year) are taxed as ordinary income (10-37%). Long-term capital gains (held over 1 year) are taxed at 0%, 15%, or 20% depending on your taxable income. Additional 3.8% Net Investment Income Tax may apply for high earners.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How is Bitcoin ROI calculated?</div>
+                <div class="faq-a">ROI = ((Current Value - Investment Cost) / Investment Cost) &times; 100%. For example, if you invested $1,000 in Bitcoin and it's now worth $2,500, your ROI is ((2500-1000)/1000) &times; 100% = 150%.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Do I have to pay taxes on Bitcoin if I don't sell?</div>
+                <div class="faq-a">No. You only owe capital gains tax when you sell, trade, or spend Bitcoin. Simply holding Bitcoin does not trigger any tax event. However, mining income and staking rewards are taxed as income when received.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What fees do Bitcoin exchanges charge?</div>
+                <div class="faq-a">Exchange fees vary: Coinbase charges 0.05%-0.6%, Binance charges 0.01%-0.1%, Kraken charges 0%-0.26%. Using exchange native tokens or achieving higher trading volumes typically reduces fees. Our calculator defaults to 0.1% per trade.</div>
+            </div>
+        </div>
+
+        <!-- Related -->
+        <div class="related">
+            <h2>Related Calculators</h2>
+            <div class="related-grid">
+                <a href="/ethereum-profit-calculator.html" class="related-card">
+                    <h3>&#988; Ethereum Profit Calculator</h3>
+                    <p>Calculate your ETH trading profits and ROI</p>
+                </a>
+                <a href="/crypto-tax-calculator.html" class="related-card">
+                    <h3>&#128176; Crypto Tax Calculator</h3>
+                    <p>Estimate your cryptocurrency capital gains tax</p>
+                </a>
+                <a href="/bitcoin-dca-calculator.html" class="related-card">
+                    <h3>&#128200; Bitcoin DCA Calculator</h3>
+                    <p>See returns from dollar-cost averaging into BTC</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Ad Slot Bottom -->
+        <div class="ad-slot">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-2831974253933443"
+                 data-ad-slot="auto"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 CryptoCalc. All rights reserved. | <a href="/privacy.html">Privacy Policy</a></p>
+        <p style="margin-top:8px;font-size:12px;">This calculator is for informational purposes only. Consult a financial advisor for investment decisions.</p>
+    </footer>
+
+    <!-- AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2831974253933443" crossorigin="anonymous"></script>
+
+    <script>
+        function calculate() {
+            const investment = parseFloat(document.getElementById('investment').value) || 0;
+            const buyPrice = parseFloat(document.getElementById('buyPrice').value) || 0;
+            const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+            const feePercent = parseFloat(document.getElementById('fee').value) || 0;
+            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+
+            if (buyPrice <= 0 || investment <= 0) return;
+
+            // Calculate BTC quantity (fees reduce effective investment)
+            const buyFee = investment * (feePercent / 100);
+            const netInvestment = investment - buyFee;
+            const btcQty = netInvestment / buyPrice;
+
+            // Sell side
+            const sellValue = btcQty * sellPrice;
+            const sellFee = sellValue * (feePercent / 100);
+            const netSellValue = sellValue - sellFee;
+
+            // Profit
+            const grossProfit = netSellValue - investment;
+            const taxableProfit = Math.max(0, grossProfit);
+            const tax = taxableProfit * (taxRate / 100);
+            const netProfit = grossProfit - tax;
+            const roi = ((netProfit) / investment) * 100;
+
+            // Break-even (need sell to cover buy price + both fees)
+            const feeMultiplier = 1 + (feePercent / 100);
+            const breakEven = buyPrice * feeMultiplier * feeMultiplier;
+            const breakEvenRounded = Math.ceil(breakEven * 100) / 100;
+
+            // Display
+            const isPositive = netProfit >= 0;
+            const box = document.getElementById('profitBox');
+            box.className = 'profit-big ' + (isPositive ? 'positive' : 'negative');
+
+            document.getElementById('netProfit').textContent = (isPositive ? '+' : '') + '$' + formatNum(netProfit);
+            document.getElementById('roiPct').textContent = (roi >= 0 ? '+' : '') + roi.toFixed(1) + '% ROI';
+            document.getElementById('btcQty').textContent = btcQty.toFixed(6) + ' BTC';
+            document.getElementById('totalInvest').textContent = '-$' + formatNum(investment);
+            document.getElementById('sellValue').textContent = '$' + formatNum(netSellValue);
+            document.getElementById('grossProfit').textContent = (grossProfit >= 0 ? '+' : '') + '$' + formatNum(grossProfit);
+
+            const totalFees = buyFee + sellFee;
+            document.getElementById('totalFees').textContent = '-$' + formatNum(totalFees);
+            document.getElementById('taxAmount').textContent = '-$' + formatNum(tax);
+            document.getElementById('breakEven').textContent = '$' + formatNum(breakEvenRounded);
+
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('results').classList.add('visible');
+        }
+
+        function formatNum(n) {
+            return Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Auto-calculate on input change
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', calculate);
+            el.addEventListener('change', calculate);
+        });
+
+        // Initial calculation
+        calculate();
+    </script>
+
+</body>
+</html>
